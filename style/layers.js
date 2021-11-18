@@ -13,6 +13,8 @@ americanaLayers.push(
   layerBoundaryCountryBg,
 
   layerWater,
+  layerWaterwayRiver,
+  layerWaterwayOther,
 
   layerParkOutline,
 
@@ -41,6 +43,11 @@ americanaLayers.push(
   layerMotorwayLink,
   layerRoadOneway,
   layerRoadOnewayLink
+);
+
+americanaLayers.push(
+  // Labels covered by bridges
+  layerWaterwayLabel
 );
 
 var bridgeLayers = [
