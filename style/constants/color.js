@@ -2,7 +2,8 @@ var minzoomBrunnel = 11;
 var colorTransparent = "hsla(0, 0%, 0%, 0)";
 
 var colorWaterFill = "hsl(211, 42%, 70%)";
-var colorWaterLine = "hsl(211, 73%, 78%)";
+var colorWaterLine = colorWaterFill;
+var colorWaterText = "hsl(211, 42%, 30%)";
 var colorWaterIntermittent = "hsl(205, 89%, 83%)";
 
 var hueMotorway = 354;

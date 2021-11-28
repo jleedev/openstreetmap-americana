@@ -13,8 +13,7 @@ americanaLayers.push(
   layerBoundaryCountryBg,
 
   layerWater,
-  layerWaterwayRiver,
-  layerWaterwayOther,
+  layerWaterway,
 
   layerParkOutline,
 
@@ -43,6 +42,47 @@ americanaLayers.push(
   layerMotorwayLink,
   layerRoadOneway,
   layerRoadOnewayLink
+);
+
+americanaLayers.push(
+  {
+    id: "landuse",
+    source: "openmaptiles",
+    "source-layer": "landuse",
+    type: "fill",
+    paint: {
+      "fill-color": [
+        "match",
+        ["get", "class"],
+        "residential",
+        "#9f9",
+        "commercial",
+        "#99f",
+        "retail",
+        "#9ff",
+        "industrial",
+        "#ff9",
+        "#f9f",
+      ],
+      "fill-opacity": 0.2,
+    }
+  },
+  {
+    id: "landcover",
+    source: "openmaptiles",
+    "source-layer": "landcover",
+    type: "fill",
+    paint: {
+      "fill-color": [
+        "match",
+        ["get", "class"],
+        "ice",
+        "#eef",
+        "#036",
+      ],
+      "fill-opacity": 0.2,
+    }
+  },
 );
 
 americanaLayers.push(
@@ -96,4 +136,26 @@ americanaLayers.push(
   layerPlaceCountry2,
   layerPlaceCountry1,
   layerPlaceContinent
+);
+
+americanaLayers.push(
+  {
+    id: "transportation",
+    source: "openmaptiles",
+    "source-layer": "transportation",
+    type: "line",
+    paint: {
+      "line-color": "#f0f",
+      "line-width": 0.1,
+    }
+  },
+  {
+    id: "building",
+    source: "openmaptiles",
+    "source-layer": "building",
+    type: "fill",
+    paint: {
+      "fill-color": "#000",
+    }
+  },
 );
