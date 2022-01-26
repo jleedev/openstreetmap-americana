@@ -19,23 +19,21 @@
 
   await once(map, "styledata");
 
-  const fakeMap = {
-    addImage(id, image, options) {
-      if (image === null) {
-        output.append(id, "=", image);
-        output.append(document.createElement("br"));
-        return;
-      }
-      const {data, width, height} = image;
-      const canvas = document.createElement("canvas");
-      canvas.width = width;
-      canvas.height = height;
-      const ctx = canvas.getContext("2d");
-      ctx.putImageData(new ImageData(data, width, height), 0, 0);
-      canvas.style.width = `${width / options.pixelRatio}px`;
-      canvas.style.height = `${height / options.pixelRatio}px`;
-      output.append(id, "→", canvas, document.createElement("br"));
+  const addImage = (id, image, options) => {
+    if (image === null) {
+      output.append(id, "=", image);
+      output.append(document.createElement("br"));
+      return;
     }
+    const {data, width, height} = image;
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    const ctx = canvas.getContext("2d");
+    ctx.putImageData(new ImageData(data, width, height), 0, 0);
+    canvas.style.width = `${width / options.pixelRatio}px`;
+    canvas.style.height = `${height / options.pixelRatio}px`;
+    output.append(id, "→", canvas, document.createElement("br"));
   };
 
   Object.keys(shields).forEach(network => {
@@ -47,7 +45,16 @@
     e.preventDefault();
     const shield_id = `shield_${form.network.value}=${form.ref.value}`;
     try {
-      Shield.missingIconLoader(fakeMap, {id: shield_id});
+      let didAddImage = false;
+      let result = Shield.missingIconLoader({
+        addImage(...args) {
+          didAddImage = true;
+          addImage(...args);
+        }
+      }, {id: shield_id});
+      if (!didAddImage) {
+        output.append(shield_id, "→", result, document.createElement("br"));
+      }
     } catch (err) {
       const errEle = document.createElement("span");
       errEle.textContent = err.stack;
