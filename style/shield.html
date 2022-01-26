@@ -1,0 +1,64 @@
+<!doctype html>
+<meta charset=utf-8>
+<title>interstate brian</title>
+<meta name=viewport content="width=device-width">
+<style>span.error{color:red}</style>
+<script src="https://zelonewolf.github.io/maplibre-gl-js/maplibre-gl.js"></script>
+<link href="https://zelonewolf.github.io/maplibre-gl-js/maplibre-gl.css" rel="stylesheet" />
+<script type=module>
+  import {map} from "./americana.js";
+  import * as Shield from "./js/shield.js";
+  import {shields} from "./js/shield_defs.js";
+
+  const once = (emitter, name, {signal}={}) => new Promise(
+    (resolve, reject) => {
+      emitter.once(name, resolve);
+      signal?.addEventListener("abort", reject);
+    }
+  );
+
+  await once(map, "styledata");
+
+  const fakeMap = {
+    addImage(id, image, options) {
+      if (image === null) {
+        output.append(id, "=", image);
+        output.append(document.createElement("br"));
+        return;
+      }
+      const {data, width, height} = image;
+      const canvas = document.createElement("canvas");
+      canvas.width = width;
+      canvas.height = height;
+      const ctx = canvas.getContext("2d");
+      ctx.putImageData(new ImageData(data, width, height), 0, 0);
+      output.append(id, "→", canvas, document.createElement("br"));
+    }
+  };
+
+  Object.keys(shields).forEach(network => {
+    const option = document.createElement("option");
+    option.append(network);
+    form.network.append(option);
+  });
+  form.addEventListener("submit", () => {
+    const shield_id = `shield_${form.network.value}=${form.ref.value}`;
+    try {
+      Shield.missingIconLoader(fakeMap, {id: shield_id});
+    } catch (err) {
+      const errEle = document.createElement("span");
+      errEle.textContent = err.stack;
+      errEle.className = "error";
+      output.append(shield_id, "→", errEle, document.createElement("br"));
+    }
+  });
+
+</script>
+
+<form id=form method=dialog>
+  <select name=network></select>=<input name=ref>
+</form>
+
+<div id=output></div>
+
+<div id=map style="display:none"></div>

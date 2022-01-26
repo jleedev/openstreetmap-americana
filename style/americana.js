@@ -225,7 +225,7 @@ var style = {
   },
 };
 
-var map = (window.map = new maplibregl.Map({
+export const map = (window.map = new maplibregl.Map({
   container: "map", // container id
   hash: true,
   antialias: true,
