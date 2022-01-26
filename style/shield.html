@@ -41,7 +41,8 @@
     option.append(network);
     form.network.append(option);
   });
-  form.addEventListener("submit", () => {
+  form.addEventListener("submit", e => {
+    e.preventDefault();
     const shield_id = `shield_${form.network.value}=${form.ref.value}`;
     try {
       Shield.missingIconLoader(fakeMap, {id: shield_id});
