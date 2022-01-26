@@ -32,6 +32,8 @@
       canvas.height = height;
       const ctx = canvas.getContext("2d");
       ctx.putImageData(new ImageData(data, width, height), 0, 0);
+      canvas.style.width = `${width / options.pixelRatio}px`;
+      canvas.style.height = `${height / options.pixelRatio}px`;
       output.append(id, "→", canvas, document.createElement("br"));
     }
   };
