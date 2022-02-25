@@ -30,6 +30,12 @@ export const waterway = {
         2,
       ],
     ],
+    "line-opacity": [
+      "case",
+      ["==", ["get", "brunnel"], "tunnel"],
+      0.3,
+      1,
+    ],
   },
 };
 
@@ -62,13 +68,14 @@ export const waterwayLabel = {
       ["exponential", 2],
       ["zoom"],
       3, 8,
+      12, 10,
       20, [
         "case",
         ["in", ["get", "class"], ["literal", bigRivers]],
         40,
         ["in", ["get", "class"], ["literal", mediumRivers]],
         20,
-        10,
+        15,
       ],
     ],
     "text-max-angle": 45,
