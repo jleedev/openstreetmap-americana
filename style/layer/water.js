@@ -2,155 +2,35 @@
 
 import * as Color from "../constants/color.js";
 
-export const waterwayTunnel = {
-  id: "waterway_tunnel",
-  type: "line",
-  paint: {
-    "line-color": Color.waterLine,
-    "line-width": {
-      base: 1.3,
-      stops: [
-        [13, 0.5],
-        [20, 6],
-      ],
-    },
-    "line-dasharray": [2, 4],
-  },
-  filter: ["all", ["==", "brunnel", "tunnel"]],
-  layout: {
-    "line-cap": "round",
-    visibility: "visible",
-  },
-  source: "openmaptiles",
-  minzoom: 14,
-  "source-layer": "waterway",
-};
+const bigRivers = ["river", "canal"];
+const mediumRivers = ["stream"];
 
-export const waterwayRiver = {
-  id: "waterway_river",
+export const waterway = {
+  id: "waterway",
   type: "line",
-  paint: {
-    "line-color": Color.waterLine,
-    "line-width": {
-      base: 1.2,
-      stops: [
-        [11, 0.5],
-        [20, 6],
-      ],
-    },
-  },
-  filter: [
-    "all",
-    ["==", "class", "river"],
-    ["!=", "brunnel", "tunnel"],
-    ["!=", "intermittent", 1],
-  ],
-  layout: {
-    "line-cap": "round",
-    visibility: "visible",
-  },
   source: "openmaptiles",
-  metadata: {},
   "source-layer": "waterway",
-};
-export const waterwayRiverIntermittent = {
-  id: "waterway_river_intermittent",
-  type: "line",
-  paint: {
-    "line-color": Color.waterLine,
-    "line-width": {
-      base: 1.2,
-      stops: [
-        [11, 0.5],
-        [20, 6],
-      ],
-    },
-    "line-dasharray": [3, 2],
-  },
-  filter: [
-    "all",
-    ["==", "class", "river"],
-    ["!=", "brunnel", "tunnel"],
-    ["==", "intermittent", 1],
-  ],
   layout: {
+    "line-join": "round",
     "line-cap": "round",
   },
-  source: "openmaptiles",
-  metadata: {},
-  "source-layer": "waterway",
-};
-export const waterwayOther = {
-  id: "waterway_other",
-  type: "line",
   paint: {
-    "line-color": Color.waterLine,
-    "line-width": {
-      base: 1.3,
-      stops: [
-        [13, 0.5],
-        [20, 6],
+    "line-color": Color.waterFill,
+    "line-width": [
+      "interpolate",
+      ["exponential", 2],
+      ["zoom"],
+      3, 0.5,
+      16, [
+        "case",
+        ["in", ["get", "class"], ["literal", bigRivers]],
+        10,
+        ["in", ["get", "class"], ["literal", mediumRivers]],
+        8,
+        2,
       ],
-    },
+    ],
   },
-  filter: [
-    "all",
-    ["!=", "class", "river"],
-    ["!=", "brunnel", "tunnel"],
-    ["!=", "intermittent", 1],
-  ],
-  layout: {
-    "line-cap": "round",
-    visibility: "visible",
-  },
-  source: "openmaptiles",
-  metadata: {},
-  "source-layer": "waterway",
-};
-
-export const waterwayOtherIntermittent = {
-  id: "waterway_other_intermittent",
-  type: "line",
-  paint: {
-    "line-color": Color.waterLine,
-    "line-width": {
-      base: 1.3,
-      stops: [
-        [13, 0.5],
-        [20, 6],
-      ],
-    },
-    "line-dasharray": [4, 3],
-  },
-  filter: [
-    "all",
-    ["!=", "class", "river"],
-    ["!=", "brunnel", "tunnel"],
-    ["==", "intermittent", 1],
-  ],
-  layout: {
-    "line-cap": "round",
-    visibility: "visible",
-  },
-  source: "openmaptiles",
-  metadata: {},
-  "source-layer": "waterway",
-};
-
-export const waterIntermittent = {
-  id: "water_intermittent",
-  type: "fill",
-  paint: {
-    "fill-color": Color.waterIntermittent,
-    "fill-opacity": 0.85,
-  },
-  filter: ["all", ["==", "intermittent", 1]],
-  layout: {
-    visibility: "visible",
-  },
-  source: "openmaptiles",
-  metadata: {},
-  "source-layer": "water",
 };
 
 export const water = {
@@ -166,4 +46,38 @@ export const water = {
   source: "openmaptiles",
   metadata: {},
   "source-layer": "water",
+};
+
+export const waterwayLabel = {
+  id: "waterway_label",
+  type: "symbol",
+  source: "openmaptiles",
+  "source-layer": "waterway",
+  layout: {
+    "symbol-placement": "line",
+    "text-field": ["get", "name"],
+    "text-font": ["Metropolis Extra Bold Italic"],
+    "text-size": [
+      "interpolate",
+      ["exponential", 2],
+      ["zoom"],
+      3, 8,
+      20, [
+        "case",
+        ["in", ["get", "class"], ["literal", bigRivers]],
+        40,
+        ["in", ["get", "class"], ["literal", mediumRivers]],
+        20,
+        10,
+      ],
+    ],
+    "text-max-angle": 45,
+    "text-letter-spacing": 0.15,
+  },
+  paint: {
+    "text-halo-color": "hsla(0, 0, 100%, 1)",
+    "text-color": "hsla(211, 43%, 28%, 1)",
+    "text-halo-width": 0.75,
+    "text-halo-blur": 0.25,
+  }
 };

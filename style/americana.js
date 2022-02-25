@@ -38,6 +38,8 @@ americanaLayers.push(
   lyrBoundary.countryCasing,
 
   lyrWater.water,
+  lyrWater.waterway,
+  lyrWater.waterwayLabel,
 
   lyrPark.outline,
 
