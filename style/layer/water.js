@@ -68,6 +68,9 @@ export const waterwayLabel = {
   type: "symbol",
   source: "openmaptiles",
   "source-layer": "waterway",
+  filter: [
+    "!=", "brunnel", "tunnel",
+  ],
   layout: {
     "symbol-placement": "line",
     "text-field": ["get", "name"],
