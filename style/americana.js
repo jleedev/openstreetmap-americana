@@ -48,6 +48,7 @@ americanaLayers.push(
   lyrBoundary.country,
 
   lyrWater.waterwayLabel,
+  lyrWater.waterLabel,
 
   lyrRoad.motorwayTunnel.casing(),
   lyrRoad.trunkExpresswayTunnel.casing(),

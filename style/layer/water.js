@@ -44,8 +44,17 @@ export const water = {
   type: "fill",
   paint: {
     "fill-color": Color.waterFill,
+    "fill-opacity": [
+      "case",
+      [
+        "any",
+        ["==", ["get", "intermittent"], 1],
+        ["==", ["get", "brunnel"], "tunnel"],
+      ],
+      0.3,
+      1,
+    ],
   },
-  filter: ["all", ["!=", "intermittent", 1], ["!=", "brunnel", "tunnel"]],
   layout: {
     visibility: "visible",
   },
@@ -68,7 +77,12 @@ export const waterwayLabel = {
       ["exponential", 2],
       ["zoom"],
       3, 8,
-      12, 10,
+      12, [
+        "case",
+        ["in", ["get", "class"], ["literal", bigRivers]],
+        14,
+        10,
+      ],
       20, [
         "case",
         ["in", ["get", "class"], ["literal", bigRivers]],
@@ -78,8 +92,43 @@ export const waterwayLabel = {
         15,
       ],
     ],
-    "text-max-angle": 45,
+    "text-max-angle": 55,
     "text-letter-spacing": 0.15,
+    "text-allow-overlap": [
+      "step",
+      ["zoom"],
+      false,
+      15,
+      true,
+    ],
+  },
+  paint: {
+    "text-halo-color": "hsla(0, 0, 100%, 1)",
+    "text-color": "hsla(211, 43%, 28%, 1)",
+    "text-halo-width": 0.75,
+    "text-halo-blur": 0.25,
+  }
+};
+
+export const waterLabel = {
+  id: "water_label",
+  type: "symbol",
+  source: "openmaptiles",
+  "source-layer": "water_name",
+  layout: {
+    "symbol-placement": "line",
+    "text-field": ["get", "name"],
+    "text-font": ["Metropolis Extra Bold Italic"],
+    "text-size": [
+      "interpolate",
+      ["exponential", 2],
+      ["zoom"],
+      3, 8,
+      12, 10,
+      20, 40,
+    ],
+    "text-max-angle": 45,
+    "text-letter-spacing": 0.25,
   },
   paint: {
     "text-halo-color": "hsla(0, 0, 100%, 1)",
